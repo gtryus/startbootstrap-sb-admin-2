@@ -5,6 +5,8 @@ var header = require('gulp-header');
 var cleanCSS = require('gulp-clean-css');
 var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
+var beautify = require('gulp-html-beautify');
+var pug = require('gulp-pug');
 var pkg = require('./package.json');
 
 // Set the banner content
@@ -99,6 +101,17 @@ gulp.task('copy', function() {
         .pipe(gulp.dest('vendor/raphael'))
 
 })
+
+// PUG
+gulp.task('pug', function buildHTML() {
+  return gulp.src('./pug/*.pug')
+    .pipe(pug())
+    .pipe(beautify())
+    .pipe(gulp.dest('./pages'))
+    .pipe(browserSync.reload({
+      stream: true
+    }))
+});
 
 // Run everything
 gulp.task('default', ['minify-css', 'minify-js', 'copy']);
